@@ -148,6 +148,14 @@ section{padding:4rem 1.5rem}
 /* FADE-IN ANIMATIONS */
 .fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s ease,transform .6s ease}
 .fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* STICKY MOBILE CALL BAR */
+.sticky-call{display:none;position:fixed;bottom:0;left:0;width:100%;z-index:1100;background:var(--red);color:var(--white);text-align:center;padding:1rem 1.5rem;font-family:var(--font-heading);font-size:1.1rem;font-weight:600;letter-spacing:.5px;text-transform:uppercase;text-decoration:none;box-shadow:0 -2px 12px rgba(0,0,0,.3);transition:background .2s}
+.sticky-call:hover{background:#a93226;color:var(--white)}
+@media(max-width:767px){
+  .sticky-call{display:block}
+  body{padding-bottom:60px}
+}
 </style>
 </head>
 <body>
@@ -185,7 +193,7 @@ section{padding:4rem 1.5rem}
     <h1>Up Front Auto Repair</h1>
     <p class="tagline">Transparency, Quality, and Integrity</p>
     <div class="hero-ctas">
-      <a href="tel:+12076484747" class="btn btn-red">Call Now: (207) 648-4747</a>
+      <a href="tel:+12076484747" class="btn btn-red">📞 Schedule Appointment</a>
       <a href="https://maps.google.com/?q=129+Ossipee+Trail+West+Standish+ME+04084" target="_blank" rel="noopener" class="btn btn-navy">Get Directions</a>
     </div>
   </div>
@@ -319,20 +327,20 @@ section{padding:4rem 1.5rem}
   <div class="reviews-grid">
     <div class="review-card fade-in">
       <div class="review-stars">★★★★★</div>
-      <p class="review-text">"Brought my truck in for a weird noise in the front end. They found it in 20 minutes, explained exactly what was going on, and the price was right where they quoted. No games, no surprises. This is how a shop should be."</p>
-      <p class="review-author">Mike R.</p>
+      <p class="review-text">"Had my AC compressor fixed here and the experience was great. Jon was super communicative, when he found a couple of other parts that needed fixing, he explained everything clearly and kept me updated on the revised pricing and timeline."</p>
+      <p class="review-author">Erin Wheeler</p>
       <p class="review-source">Google Review</p>
     </div>
     <div class="review-card fade-in">
       <div class="review-stars">★★★★★</div>
-      <p class="review-text">"I drive a 2003 Mercedes and most shops around here won't touch it. Up Front diagnosed a tricky electrical issue that two other places missed. Honest, fair, and they know their stuff. Highly recommend."</p>
-      <p class="review-author">Sarah K.</p>
+      <p class="review-text">"The team at Upfront Auto was great! Came in to swap out tires and get my oil changed. Got me in promptly and did a good job! Recommend to anyone."</p>
+      <p class="review-author">Matthew Gould</p>
       <p class="review-source">Google Review</p>
     </div>
     <div class="review-card fade-in">
       <div class="review-stars">★★★★★</div>
-      <p class="review-text">"Best auto shop in the Standish area, hands down. They did a full brake job and suspension work on my Silverado. The truck rides better than new. Great people, great work, and the shop itself is awesome — you gotta check out the murals."</p>
-      <p class="review-author">Dan L.</p>
+      <p class="review-text">"Great price. I can't say enough about Upfront Auto. They have helped me diagnose more problems than I care to admit our vehicles had. Honest. Affordable. Fast. Reliable. I strongly suggest letting Jon take a look before taking your car or truck anywhere else!"</p>
+      <p class="review-author">Nick Alligood</p>
       <p class="review-source">Google Review</p>
     </div>
   </div>
@@ -441,6 +449,9 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowRight') { currentIndex = (currentIndex + 1) % gallerySrcs.length; openLightbox(currentIndex); }
 });
 </script>
+
+<!-- STICKY MOBILE CALL BAR -->
+<a href="tel:+12076484747" class="sticky-call">📞 Schedule Appointment — (207) 648-4747</a>
 
 </body>
 </html>
