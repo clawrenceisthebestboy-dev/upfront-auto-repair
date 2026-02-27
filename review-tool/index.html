@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Up Front Auto Repair — Review Request Tool</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo-icon { font-size: 48px; margin-bottom: 8px; }
+
+    .logo h1 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .logo p { font-size: 14px; color: #888; }
+
+    .divider { height: 1px; background: #f0f0f0; margin-bottom: 28px; }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e8e8e8;
+      border-radius: 10px;
+      font-size: 16px;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus { border-color: #c8202a; }
+    input::placeholder { color: #bbb; }
+
+    .preview {
+      background: #f8f8f8;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+      border-left: 3px solid #c8202a;
+    }
+
+    .preview-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .preview-text {
+      font-size: 13px;
+      color: #444;
+      line-height: 1.7;
+    }
+
+    .highlight { color: #c8202a; font-weight: 700; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: #c8202a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.1s;
+      margin-bottom: 12px;
+    }
+
+    .btn:hover { background: #a81820; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled, .btn.disabled { background: #ccc; cursor: not-allowed; pointer-events: none; }
+
+    .counter {
+      text-align: center;
+      font-size: 12px;
+      color: #bbb;
+      margin-top: 16px;
+    }
+    .counter span { font-weight: 700; color: #c8202a; }
+
+    .success {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .success-icon { font-size: 52px; margin-bottom: 12px; }
+    .success h2 { font-size: 22px; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; }
+    .success p { color: #888; font-size: 14px; margin-bottom: 24px; }
+    .btn-reset {
+      background: #f0f0f0;
+      color: #444;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s;
+    }
+    .btn-reset:hover { background: #e0e0e0; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+
+  <div id="form-view">
+    <div class="logo">
+      <div class="logo-icon">🔧</div>
+      <h1>Up Front Auto Repair</h1>
+      <p>Send a Google Review Request via Text</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <label for="name">Customer First Name</label>
+    <input type="text" id="name" placeholder="e.g. John" oninput="updatePreview()" autocomplete="off">
+
+    <label for="phone">Customer Phone Number</label>
+    <input type="tel" id="phone" placeholder="e.g. 207-555-1234" oninput="updatePreview()" autocomplete="off">
+
+    <div class="preview">
+      <div class="preview-label">📱 Text Preview</div>
+      <div class="preview-text" id="preview-text">
+        Hi <span class="highlight">[Name]</span>! Thank you for visiting Up Front Auto Repair. We'd love to hear about your experience — could you leave us a quick Google review? It really helps our small business! 🙏<br><br>
+        https://g.page/r/CXq8b_a9JviMEAE/review<br><br>
+        — Up Front Auto Repair 📞 207-648-4747
+      </div>
+    </div>
+
+    <a class="btn disabled" id="send-btn" href="#" onclick="return handleSend()">
+      📨 Send Review Request
+    </a>
+
+    <div class="counter">Sent today: <span id="sent-count">0</span></div>
+  </div>
+
+  <div class="success" id="success-view">
+    <div class="success-icon">✅</div>
+    <h2>Message Opened!</h2>
+    <p>Your Messages app should have opened with the text ready to send.<br>Just hit send!</p>
+    <button class="btn-reset" onclick="reset()">Send Another</button>
+  </div>
+
+</div>
+
+<script>
+  const REVIEW_LINK = 'https://g.page/r/CXq8b_a9JviMEAE/review';
+  const SHOP_PHONE = '207-648-4747';
+
+  // Load today's count
+  let sentCount = parseInt(localStorage.getItem('sentToday') || '0');
+  const today = new Date().toDateString();
+  if (localStorage.getItem('sentDate') !== today) {
+    sentCount = 0;
+    localStorage.setItem('sentDate', today);
+    localStorage.setItem('sentToday', '0');
+  }
+  document.getElementById('sent-count').textContent = sentCount;
+
+  function getMessage(name) {
+    return `Hi ${name}! Thank you for visiting Up Front Auto Repair. We'd love to hear about your experience — could you leave us a quick Google review? It really helps our small business! 🙏\n\n${REVIEW_LINK}\n\n— Up Front Auto Repair 📞 ${SHOP_PHONE}`;
+  }
+
+  function updatePreview() {
+    const name = document.getElementById('name').value.trim() || '[Name]';
+    const phone = document.getElementById('phone').value.trim();
+    const btn = document.getElementById('send-btn');
+
+    document.getElementById('preview-text').innerHTML =
+      `Hi <span class="highlight">${name}</span>! Thank you for visiting Up Front Auto Repair. We'd love to hear about your experience — could you leave us a quick Google review? It really helps our small business! 🙏<br><br>${REVIEW_LINK}<br><br>— Up Front Auto Repair 📞 ${SHOP_PHONE}`;
+
+    if (name !== '[Name]' && phone.length >= 7) {
+      btn.classList.remove('disabled');
+    } else {
+      btn.classList.add('disabled');
+    }
+  }
+
+  function handleSend() {
+    const name = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    if (!name || phone.length < 7) return false;
+
+    const cleaned = phone.replace(/\D/g, '');
+    const msg = encodeURIComponent(getMessage(name));
+    const smsLink = `sms:+1${cleaned}&body=${msg}`;
+
+    window.location.href = smsLink;
+
+    // Show success after short delay
+    setTimeout(() => {
+      sentCount++;
+      localStorage.setItem('sentToday', sentCount);
+      localStorage.setItem('sentDate', new Date().toDateString());
+      document.getElementById('form-view').style.display = 'none';
+      document.getElementById('success-view').style.display = 'block';
+    }, 500);
+
+    return false;
+  }
+
+  function reset() {
+    document.getElementById('name').value = '';
+    document.getElementById('phone').value = '';
+    document.getElementById('sent-count').textContent = sentCount;
+    updatePreview();
+    document.getElementById('success-view').style.display = 'none';
+    document.getElementById('form-view').style.display = 'block';
+    document.getElementById('send-btn').classList.add('disabled');
+  }
+</script>
+
+</body>
+</html>
