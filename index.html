@@ -3,9 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Up Front Auto Repair | Standish, ME | (207) 648-4747</title>
-  <meta name="description" content="Up Front Auto Repair in Standish, Maine. Honest auto repair, oil changes, brakes, diagnostics & more. 5-star rated. Call (207) 648-4747. Mon-Fri 8AM-5PM." />
+  <title>Auto Repair Standish ME | Call (207) 648-4747 | Up Front Auto Repair</title>
+  <meta name="description" content="Call Up Front Auto Repair in Standish, Maine: (207) 648-4747. #1 rated auto repair shop near Standish, Gorham, Windham. Oil changes, brakes, diagnostics. Open Mon-Fri 8AM-5PM." />
   <link rel="canonical" href="https://upfrontautorepair.com/" />
+
+  <!-- Voice Search & Call Optimization -->
+  <meta name="telephone" content="+12076484747" />
+  <meta name="business:contact_data:phone_number" content="+12076484747" />
+  <meta name="business:contact_data:street_address" content="129 Ossipee Trail W" />
+  <meta name="business:contact_data:locality" content="Standish" />
+  <meta name="business:contact_data:region" content="ME" />
+  <meta name="business:contact_data:postal_code" content="04084" />
+  <meta name="business:contact_data:country_name" content="United States" />
+
+  <!-- Apple / iOS call intent -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="format-detection" content="telephone=yes" />
+
+  <!-- Google speakable — tells Google Assistant exactly what to read aloud -->
+  <meta name="speakable" content="(207) 648-4747" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Up Front Auto Repair | Standish, ME" />
@@ -107,6 +123,58 @@
   }
   </script>
 
+  <!-- CallAction Schema — triggers "call" action on Google Assistant / Siri -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoRepair",
+    "name": "Up Front Auto Repair",
+    "telephone": "+12076484747",
+    "potentialAction": [
+      {
+        "@type": "ReserveAction",
+        "name": "Book Appointment",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "tel:+12076484747",
+          "actionPlatform": [
+            "http://schema.org/MobileWebPlatform",
+            "http://schema.org/IOSPlatform",
+            "http://schema.org/AndroidPlatform"
+          ]
+        }
+      },
+      {
+        "@type": "CommunicateAction",
+        "name": "Call Now",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "tel:+12076484747",
+          "actionPlatform": [
+            "http://schema.org/MobileWebPlatform",
+            "http://schema.org/IOSPlatform",
+            "http://schema.org/AndroidPlatform"
+          ]
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Speakable Schema — Google Assistant reads this section aloud when asked -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Up Front Auto Repair — Call (207) 648-4747",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": ["#speakable-summary", "#speakable-phone", "#speakable-hours"]
+    },
+    "url": "https://upfrontautorepair.com/"
+  }
+  </script>
+
   <!-- FAQ Schema — Powers Voice Search Answers (Google Assistant, Siri, Alexa) -->
   <script type="application/ld+json">
   {
@@ -182,6 +250,51 @@
   </script>
 </head>
 <body>
+
+  <!-- SPEAKABLE ELEMENTS — Google Assistant reads these when asked about the business -->
+  <!-- Hidden visually but readable by voice assistants -->
+  <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="false">
+    <span id="speakable-summary">Up Front Auto Repair is located at 129 Ossipee Trail West in Standish, Maine. We offer oil changes, brake repair, engine diagnostics, and general auto maintenance.</span>
+    <span id="speakable-phone">Our phone number is 2 0 7, 6 4 8, 4 7 4 7. Call us at (207) 648-4747.</span>
+    <span id="speakable-hours">We are open Monday through Friday from 8 AM to 5 PM.</span>
+  </div>
+
+  <!-- FLOATING CALL BUTTON — shown on mobile, always visible -->
+  <a href="tel:+12076484747"
+     id="floatingCall"
+     style="
+       position: fixed;
+       bottom: 24px;
+       right: 24px;
+       z-index: 9999;
+       background: #c0392b;
+       color: white;
+       border-radius: 50px;
+       padding: 14px 24px;
+       font-size: 16px;
+       font-weight: 700;
+       text-decoration: none;
+       box-shadow: 0 4px 20px rgba(192,57,43,0.5);
+       display: flex;
+       align-items: center;
+       gap: 10px;
+       letter-spacing: 0.3px;
+       animation: pulse-call 2s infinite;
+     "
+     aria-label="Call Up Front Auto Repair at (207) 648-4747">
+    📞 <span>(207) 648-4747</span>
+  </a>
+
+  <style>
+    @keyframes pulse-call {
+      0%, 100% { box-shadow: 0 4px 20px rgba(192,57,43,0.5); }
+      50% { box-shadow: 0 4px 32px rgba(192,57,43,0.85); }
+    }
+    /* Hide floating button on desktop, show on mobile */
+    @media (min-width: 769px) {
+      #floatingCall span { display: inline; }
+    }
+  </style>
 
   <!-- ===== HEADER / NAV ===== -->
   <header class="site-header" id="top">
