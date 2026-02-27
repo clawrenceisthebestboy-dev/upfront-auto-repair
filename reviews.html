@@ -3,1234 +3,1125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Up Front Auto Repair — Review Manager</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Up Front Auto Repair — Review Tool</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════════════════════════ */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:          #0f1117;
-  --surface:     #1a1d27;
-  --surface2:    #1e2130;
-  --surface3:    #242840;
-  --border:      #2a2d3a;
-  --border2:     #353850;
-  --red:         #e63946;
-  --red-dark:    #c1121f;
-  --red-glow:    rgba(230,57,70,0.35);
-  --green:       #2ecc71;
-  --green-dim:   rgba(46,204,113,0.15);
-  --amber:       #f39c12;
-  --amber-dim:   rgba(243,156,18,0.15);
-  --blue:        #3b82f6;
-  --blue-dim:    rgba(59,130,246,0.15);
-  --purple:      #8b5cf6;
-  --purple-dim:  rgba(139,92,246,0.15);
-  --text:        #ffffff;
-  --text2:       #c9cad4;
-  --text3:       #8b8d97;
-  --text4:       #555770;
-  --radius:      12px;
-  --radius-sm:   8px;
-  --shadow:      0 8px 32px rgba(0,0,0,0.4);
-  --shadow-lg:   0 20px 60px rgba(0,0,0,0.6);
-  --transition:  all 0.2s cubic-bezier(0.4,0,0.2,1);
-  --sidebar-w:   68px;
-  --header-h:    64px;
-}
-html,body{height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ═══════════════════════════════════════════════════════════
-   LAYOUT SHELL
-═══════════════════════════════════════════════════════════ */
-.shell{display:flex;height:100vh;overflow:hidden}
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3250;
+    --text: #e8eaf6;
+    --muted: #7b80a8;
+    --red: #e53935;
+    --red2: #ff6b6b;
+    --green: #00c853;
+    --yellow: #ffb300;
+    --accent: #5c6bc0;
+  }
 
-/* ═══════════════════════════════════════════════════════════
-   SIDEBAR
-═══════════════════════════════════════════════════════════ */
-.sidebar{
-  width:var(--sidebar-w);
-  background:var(--surface);
-  border-right:1px solid var(--border);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:16px 0;
-  gap:4px;
-  flex-shrink:0;
-  z-index:100;
-}
-.sidebar-logo{
-  width:40px;height:40px;
-  background:linear-gradient(135deg,var(--red),var(--red-dark));
-  border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.2rem;
-  margin-bottom:20px;
-  box-shadow:0 4px 16px var(--red-glow);
-}
-.nav-item{
-  width:44px;height:44px;
-  border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.2rem;
-  cursor:pointer;
-  transition:var(--transition);
-  position:relative;
-  color:var(--text3);
-  border:none;background:transparent;
-}
-.nav-item:hover{background:var(--surface3);color:var(--text)}
-.nav-item.active{background:rgba(230,57,70,0.15);color:var(--red)}
-.nav-item.active::before{
-  content:'';position:absolute;left:-1px;top:50%;
-  transform:translateY(-50%);
-  width:3px;height:24px;
-  background:var(--red);
-  border-radius:0 4px 4px 0;
-}
-.nav-tooltip{
-  position:absolute;left:calc(100% + 12px);
-  background:#111;color:var(--text);
-  padding:6px 12px;border-radius:6px;
-  font-size:0.75rem;font-weight:600;
-  white-space:nowrap;
-  opacity:0;pointer-events:none;
-  transition:opacity 0.15s;
-  box-shadow:var(--shadow);
-  border:1px solid var(--border);
-  z-index:200;
-}
-.nav-item:hover .nav-tooltip{opacity:1}
-.sidebar-spacer{flex:1}
-.sidebar-version{font-size:0.6rem;color:var(--text4);letter-spacing:1px}
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden;
+  }
 
-/* ═══════════════════════════════════════════════════════════
-   MAIN AREA
-═══════════════════════════════════════════════════════════ */
-.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+  /* SIDEBAR */
+  .sidebar {
+    width: 64px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 8px;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 100;
+  }
 
-/* ── HEADER ── */
-.header{
-  height:var(--header-h);
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
-  display:flex;align-items:center;
-  padding:0 28px;gap:20px;
-  flex-shrink:0;
-  z-index:50;
-}
-.header-brand{display:flex;flex-direction:column}
-.header-name{
-  font-size:0.95rem;font-weight:800;
-  letter-spacing:2px;text-transform:uppercase;
-  line-height:1.1;
-}
-.header-name em{color:var(--red);font-style:normal}
-.header-sub{font-size:0.68rem;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
-.header-divider{width:1px;height:32px;background:var(--border);margin:0 4px}
-.header-panel-name{font-size:0.85rem;font-weight:600;color:var(--text3)}
-.header-spacer{flex:1}
-.header-status{
-  display:flex;align-items:center;gap:8px;
-  font-size:0.8rem;font-weight:500;color:var(--text3);
-}
-.status-dot{
-  width:8px;height:8px;border-radius:50%;
-  background:var(--green);
-  box-shadow:0 0 8px var(--green);
-  animation:pulse 2s infinite;
-}
-.status-dot.offline{background:#ef4444;box-shadow:0 0 8px #ef4444;animation:none}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-.header-clock{
-  font-size:0.85rem;font-weight:600;color:var(--text2);
-  font-variant-numeric:tabular-nums;
-}
+  .sidebar-logo {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
 
-/* ── CONTENT ── */
-.content{flex:1;overflow-y:auto;padding:28px}
-.content::-webkit-scrollbar{width:6px}
-.content::-webkit-scrollbar-track{background:transparent}
-.content::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+  .nav-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .nav-btn:hover { background: var(--surface2); color: var(--text); }
+  .nav-btn.active { background: linear-gradient(135deg, var(--red), #c62828); color: white; box-shadow: 0 4px 15px rgba(229,57,53,0.4); }
 
-/* ── PANELS ── */
-.panel{display:none;animation:fadeSlideUp 0.35s cubic-bezier(0.4,0,0.2,1)}
-.panel.active{display:block}
-@keyframes fadeSlideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  /* MAIN */
+  .main {
+    margin-left: 64px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-/* ═══════════════════════════════════════════════════════════
-   SEND PANEL
-═══════════════════════════════════════════════════════════ */
-.send-wrap{
-  max-width:520px;margin:0 auto;
-  display:flex;flex-direction:column;gap:0;
-}
-.send-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:36px 40px;
-  box-shadow:var(--shadow-lg);
-  position:relative;
-  overflow:hidden;
-}
-.send-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:3px;
-  background:linear-gradient(90deg,var(--red),#ff6b6b);
-}
-.send-title{
-  font-size:1.25rem;font-weight:700;color:var(--text);
-  margin-bottom:8px;
-}
-.send-subtitle{font-size:0.83rem;color:var(--text3);margin-bottom:32px}
+  /* HEADER */
+  .header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
 
-/* Floating labels */
-.float-group{position:relative;margin-bottom:24px}
-.float-input,.float-select{
-  width:100%;
-  background:var(--surface2);
-  border:1.5px solid var(--border2);
-  border-radius:var(--radius-sm);
-  color:var(--text);
-  font-family:'Inter',sans-serif;
-  font-size:0.95rem;
-  font-weight:500;
-  padding:22px 16px 8px;
-  transition:var(--transition);
-  outline:none;
-  appearance:none;
-  -webkit-appearance:none;
-}
-.float-input:focus,.float-select:focus{
-  border-color:var(--red);
-  background:var(--surface3);
-  box-shadow:0 0 0 3px rgba(230,57,70,0.12);
-}
-.float-input::placeholder{color:transparent}
-.float-label{
-  position:absolute;left:16px;top:50%;transform:translateY(-50%);
-  font-size:0.9rem;font-weight:500;color:var(--text3);
-  pointer-events:none;transition:var(--transition);
-  transform-origin:left top;
-}
-.float-input:focus~.float-label,
-.float-input:not(:placeholder-shown)~.float-label,
-.float-select.has-value~.float-label{
-  top:10px;transform:none;font-size:0.68rem;font-weight:600;
-  color:var(--red);letter-spacing:0.5px;text-transform:uppercase;
-}
+  .header-title { font-size: 15px; font-weight: 600; }
+  .header-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
 
-/* Custom select wrapper */
-.select-wrap{position:relative}
-.select-wrap::after{
-  content:'';position:absolute;right:16px;top:50%;transform:translateY(-50%);
-  width:0;height:0;
-  border-left:5px solid transparent;
-  border-right:5px solid transparent;
-  border-top:5px solid var(--text3);
-  pointer-events:none;
-  transition:var(--transition);
-}
-.float-select{cursor:pointer;padding-right:40px}
-.float-select option{background:var(--surface2);color:var(--text)}
+  .header-right { display: flex; align-items: center; gap: 16px; }
 
-/* Send button */
-.send-btn{
-  width:100%;margin-top:8px;
-  padding:17px;
-  background:linear-gradient(135deg,var(--red) 0%,#ff4757 100%);
-  color:white;border:none;
-  border-radius:var(--radius-sm);
-  font-family:'Inter',sans-serif;
-  font-size:1rem;font-weight:700;
-  letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;
-  transition:var(--transition);
-  position:relative;overflow:hidden;
-  box-shadow:0 4px 20px var(--red-glow);
-}
-.send-btn::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);
-  opacity:0;transition:opacity 0.2s;
-}
-.send-btn:hover{
-  transform:translateY(-1px);
-  box-shadow:0 8px 32px var(--red-glow);
-}
-.send-btn:hover::before{opacity:1}
-.send-btn:active{transform:translateY(0) scale(0.98);box-shadow:0 2px 8px var(--red-glow)}
-.send-btn:disabled{
-  background:var(--surface3);color:var(--text4);
-  box-shadow:none;cursor:not-allowed;transform:none;
-}
+  .clock { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
 
-/* Success state */
-.success-state{
-  display:none;text-align:center;padding:20px 0;
-  animation:fadeSlideUp 0.4s cubic-bezier(0.4,0,0.2,1);
-}
-.success-state.show{display:block}
-.success-icon{
-  font-size:4rem;margin-bottom:16px;
-  animation:successPop 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
-}
-@keyframes successPop{from{transform:scale(0)}to{transform:scale(1)}}
-.success-name{font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:8px}
-.success-msg{font-size:0.88rem;color:var(--text3);margin-bottom:28px}
-.send-another-btn{
-  padding:12px 28px;
-  background:transparent;
-  border:1.5px solid var(--border2);
-  border-radius:var(--radius-sm);
-  color:var(--text2);font-family:'Inter',sans-serif;
-  font-size:0.88rem;font-weight:600;
-  cursor:pointer;transition:var(--transition);
-}
-.send-another-btn:hover{border-color:var(--text3);color:var(--text)}
+  .status-dot {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .status-dot .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s infinite;
+  }
+  .status-dot .dot.red { background: var(--red); box-shadow: 0 0 6px var(--red); }
 
-/* Error banner */
-.error-banner{
-  background:rgba(230,57,70,0.1);
-  border:1px solid rgba(230,57,70,0.3);
-  border-radius:var(--radius-sm);
-  padding:12px 16px;
-  font-size:0.83rem;color:#ff6b6b;font-weight:500;
-  margin-top:16px;display:none;
-}
-.error-banner.show{display:block}
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
 
-/* ═══════════════════════════════════════════════════════════
-   DASHBOARD PANEL
-═══════════════════════════════════════════════════════════ */
-.dash-layout{display:flex;gap:24px;align-items:flex-start}
-.dash-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:20px}
-.dash-aside{width:300px;flex-shrink:0}
+  /* SETUP BANNER */
+  .setup-banner {
+    background: linear-gradient(135deg, #7b3f00, #5d2e00);
+    border-bottom: 1px solid #ff8f00;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .setup-banner:hover { background: linear-gradient(135deg, #8f4700, #6d3500); }
+  .setup-banner.hidden { display: none; }
 
-/* Stat cards */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.stat-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:22px 20px;
-  position:relative;overflow:hidden;
-  transition:var(--transition);
-  animation:fadeSlideUp 0.4s cubic-bezier(0.4,0,0.2,1) both;
-}
-.stat-card:nth-child(1){animation-delay:0.05s}
-.stat-card:nth-child(2){animation-delay:0.1s}
-.stat-card:nth-child(3){animation-delay:0.15s}
-.stat-card:nth-child(4){animation-delay:0.2s}
-.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
-.stat-glow{
-  position:absolute;top:-30px;right:-30px;
-  width:120px;height:120px;border-radius:50%;
-  opacity:0.12;pointer-events:none;
-}
-.stat-card-blue   .stat-glow{background:var(--blue)}
-.stat-card-gold   .stat-glow{background:#f59e0b}
-.stat-card-orange .stat-glow{background:#f97316}
-.stat-card-green  .stat-glow{background:var(--green)}
-.stat-icon{font-size:1.5rem;margin-bottom:12px}
-.stat-value{
-  font-size:2.4rem;font-weight:800;color:var(--text);
-  line-height:1;font-variant-numeric:tabular-nums;
-}
-.stat-label{font-size:0.75rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:6px}
-.stat-card-blue   .stat-value{color:#60a5fa}
-.stat-card-gold   .stat-value{color:#fbbf24}
-.stat-card-orange .stat-value{color:#fb923c}
-.stat-card-green  .stat-value{color:var(--green)}
+  /* CONTENT */
+  .content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+  }
 
-/* Table card */
-.table-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-}
-.table-header{
-  padding:18px 24px;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-  gap:12px;flex-wrap:wrap;
-}
-.table-title{font-size:0.95rem;font-weight:700;color:var(--text)}
-.table-meta{font-size:0.75rem;color:var(--text4);margin-top:2px}
-.table-actions{display:flex;gap:8px;align-items:center}
-.btn-sm{
-  padding:7px 14px;border-radius:6px;
-  font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:600;
-  cursor:pointer;border:none;transition:var(--transition);letter-spacing:0.3px;
-}
-.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text3)}
-.btn-ghost:hover{border-color:var(--text3);color:var(--text)}
-.btn-primary{background:var(--red);color:white}
-.btn-primary:hover{background:var(--red-dark)}
+  .panel { display: none; }
+  .panel.active { display: block; }
 
-table{width:100%;border-collapse:collapse}
-thead th{
-  padding:12px 20px;text-align:left;
-  font-size:0.7rem;font-weight:700;color:var(--text3);
-  text-transform:uppercase;letter-spacing:1.2px;
-  background:rgba(0,0,0,0.2);border-bottom:1px solid var(--border);
-  white-space:nowrap;
-}
-tbody tr{
-  border-bottom:1px solid var(--border);
-  transition:background 0.15s;
-  animation:fadeSlideUp 0.3s cubic-bezier(0.4,0,0.2,1) both;
-}
-tbody tr:nth-child(even){background:rgba(255,255,255,0.015)}
-tbody tr:hover{background:rgba(59,130,246,0.07)}
-tbody tr:last-child{border-bottom:none}
-tbody td{
-  padding:14px 20px;vertical-align:middle;
-  font-size:0.88rem;color:var(--text2);
-}
-.td-name{font-weight:700;color:var(--text)}
-.td-phone{font-family:monospace;font-size:0.83rem;color:var(--text3)}
-.td-date{font-size:0.8rem;color:var(--text4)}
+  /* SEND PANEL */
+  .send-card {
+    max-width: 520px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+  }
 
-/* Badges */
-.badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:4px 11px;border-radius:20px;
-  font-size:0.72rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;
-  white-space:nowrap;
-}
-.badge-pending   {background:rgba(243,156,18,0.15);color:#fbbf24;border:1px solid rgba(243,156,18,0.25)}
-.badge-followed  {background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.25)}
-.badge-reviewed  {background:rgba(46,204,113,0.15);color:var(--green);border:1px solid rgba(46,204,113,0.25)}
-.badge-noresponse{background:rgba(139,92,246,0.12);color:#a78bfa;border:1px solid rgba(139,92,246,0.2)}
+  .send-card h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .send-card p { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
 
-.mark-btn{
-  padding:6px 12px;border-radius:6px;
-  background:rgba(46,204,113,0.1);color:var(--green);
-  border:1px solid rgba(46,204,113,0.25);
-  font-family:'Inter',sans-serif;font-size:0.75rem;font-weight:700;
-  cursor:pointer;transition:var(--transition);white-space:nowrap;
-}
-.mark-btn:hover{background:rgba(46,204,113,0.2);border-color:rgba(46,204,113,0.4)}
-.mark-btn:disabled{opacity:0.35;cursor:not-allowed;background:transparent}
+  .form-group {
+    position: relative;
+    margin-bottom: 20px;
+  }
 
-.table-empty{text-align:center;padding:60px 20px}
-.table-empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:0.4}
-.table-empty-msg{font-size:0.9rem;font-weight:600;color:var(--text3)}
-.table-empty-sub{font-size:0.8rem;color:var(--text4);margin-top:6px}
+  .form-group input, .form-group select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px 8px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
 
-/* Activity feed */
-.activity-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  overflow:hidden;
-}
-.activity-header{
-  padding:16px 20px;
-  border-bottom:1px solid var(--border);
-  font-size:0.88rem;font-weight:700;color:var(--text);
-  display:flex;align-items:center;justify-content:space-between;
-}
-.activity-list{max-height:520px;overflow-y:auto}
-.activity-list::-webkit-scrollbar{width:4px}
-.activity-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-.activity-item{
-  padding:14px 20px;border-bottom:1px solid var(--border);
-  animation:fadeSlideUp 0.3s cubic-bezier(0.4,0,0.2,1) both;
-}
-.activity-item:last-child{border-bottom:none}
-.activity-text{font-size:0.82rem;color:var(--text2);font-weight:500;line-height:1.4}
-.activity-time{font-size:0.72rem;color:var(--text4);margin-top:4px}
-.activity-dot{
-  display:inline-block;width:6px;height:6px;border-radius:50%;
-  margin-right:6px;vertical-align:middle;flex-shrink:0;
-}
-.dot-green{background:var(--green)}
-.dot-blue{background:var(--blue)}
-.dot-amber{background:var(--amber)}
-.dot-gray{background:var(--text4)}
-.activity-empty{padding:40px 20px;text-align:center;color:var(--text4);font-size:0.82rem}
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--red);
+  }
 
-/* ═══════════════════════════════════════════════════════════
-   CUSTOMERS PANEL
-═══════════════════════════════════════════════════════════ */
-.customers-wrap{display:flex;flex-direction:column;gap:20px}
+  .form-group label {
+    position: absolute;
+    top: 14px; left: 16px;
+    font-size: 13px;
+    color: var(--muted);
+    pointer-events: none;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
 
-/* ═══════════════════════════════════════════════════════════
-   SETTINGS PANEL
-═══════════════════════════════════════════════════════════ */
-.settings-wrap{max-width:580px;display:flex;flex-direction:column;gap:20px}
-.settings-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--radius);padding:28px 32px;
-}
-.settings-card h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px}
-.settings-card p{font-size:0.82rem;color:var(--text3);margin-bottom:24px;line-height:1.5}
-.settings-row{display:flex;gap:12px;align-items:flex-end;margin-bottom:16px}
-.settings-row .float-group{flex:1;margin-bottom:0}
-.ping-result{
-  font-size:0.82rem;font-weight:600;padding:12px 16px;
-  border-radius:var(--radius-sm);margin-top:12px;
-  display:none;
-}
-.ping-result.ok{background:rgba(46,204,113,0.1);color:var(--green);border:1px solid rgba(46,204,113,0.2);display:block}
-.ping-result.fail{background:rgba(230,57,70,0.1);color:#ff6b6b;border:1px solid rgba(230,57,70,0.2);display:block}
-.config-display{
-  background:rgba(0,0,0,0.3);border-radius:var(--radius-sm);
-  padding:14px 16px;font-family:monospace;font-size:0.82rem;
-  color:var(--text3);border:1px solid var(--border);
-  line-height:1.8;
-}
-.config-key{color:var(--text4)}
-.config-val{color:#60a5fa}
+  .form-group input:focus + label,
+  .form-group input:not(:placeholder-shown) + label,
+  .form-group select + label {
+    top: 6px;
+    font-size: 10px;
+    color: var(--red2);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
 
-/* ═══════════════════════════════════════════════════════════
-   CONFETTI
-═══════════════════════════════════════════════════════════ */
-.confetti-canvas{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  pointer-events:none;z-index:9999;
-}
+  .form-group input::placeholder { color: transparent; }
 
-/* ═══════════════════════════════════════════════════════════
-   SCROLLBAR OFFSET FOR WIDE SCREENS
-═══════════════════════════════════════════════════════════ */
-@media(max-width:1100px){
-  .dash-aside{display:none}
-  .stats-row{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:680px){
-  .content{padding:16px}
-  .send-card{padding:24px 20px}
-  .stats-row{grid-template-columns:repeat(2,1fr)}
-  .table-header{gap:8px}
-}
+  .send-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, var(--red), #c62828);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(229,57,53,0.4);
+    letter-spacing: 0.3px;
+    margin-top: 8px;
+  }
+  .send-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(229,57,53,0.5); }
+  .send-btn:active { transform: translateY(0); }
+  .send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* DASHBOARD */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .stat-label { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .stat-value { font-size: 32px; font-weight: 800; line-height: 1; }
+  .stat-value.red { color: var(--red2); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.yellow { color: var(--yellow); }
+  .stat-value.blue { color: #7986cb; }
+
+  .table-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .table-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .table-header h3 { font-size: 14px; font-weight: 600; }
+
+  .filter-btns { display: flex; gap: 6px; }
+  .filter-btn {
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn.active { background: var(--red); border-color: var(--red); color: white; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); }
+  td { padding: 12px 16px; font-size: 13px; border-bottom: 1px solid rgba(46,50,80,0.5); }
+  tr:last-child td { border-bottom: none; }
+  tr { transition: background 0.15s; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge.pending { background: rgba(255,179,0,0.15); color: var(--yellow); }
+  .badge.followed_up { background: rgba(92,107,192,0.15); color: #7986cb; }
+  .badge.reviewed { background: rgba(0,200,83,0.15); color: var(--green); }
+  .badge.no_response { background: rgba(120,120,140,0.15); color: #7b80a8; }
+
+  .action-btns { display: flex; gap: 6px; }
+  .action-btn {
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 11px;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .action-btn:hover { border-color: var(--text); color: var(--text); }
+  .action-btn.mark-reviewed:hover { border-color: var(--green); color: var(--green); }
+  .action-btn.delete-btn:hover { border-color: var(--red); color: var(--red); }
+
+  .empty-state {
+    padding: 48px;
+    text-align: center;
+    color: var(--muted);
+  }
+  .empty-state .emoji { font-size: 40px; margin-bottom: 12px; }
+  .empty-state p { font-size: 14px; }
+
+  /* SETTINGS */
+  .settings-card {
+    max-width: 560px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+  .settings-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .settings-card .desc { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+  .setup-steps {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .setup-steps h4 { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .setup-steps ol { padding-left: 18px; }
+  .setup-steps li { font-size: 13px; color: var(--text); margin-bottom: 6px; line-height: 1.5; }
+  .setup-steps a { color: var(--red2); text-decoration: none; }
+  .setup-steps a:hover { text-decoration: underline; }
+
+  .settings-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    outline: none;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+  }
+  .settings-input:focus { border-color: var(--red); }
+  .settings-input::placeholder { color: var(--muted); }
+
+  .settings-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .settings-row { margin-bottom: 20px; }
+
+  .btn-row { display: flex; gap: 10px; margin-top: 8px; }
+
+  .btn-save {
+    flex: 1;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--red), #c62828);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(229,57,53,0.3);
+  }
+  .btn-save:hover { transform: translateY(-1px); }
+
+  .btn-test {
+    padding: 13px 20px;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-test:hover { border-color: var(--accent); color: var(--accent); }
+
+  .danger-zone {
+    background: rgba(229,57,53,0.05);
+    border: 1px solid rgba(229,57,53,0.2);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 20px;
+  }
+  .danger-zone h4 { font-size: 13px; font-weight: 600; color: var(--red2); margin-bottom: 8px; }
+  .danger-zone p { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+  .btn-danger {
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid var(--red);
+    border-radius: 8px;
+    color: var(--red2);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-danger:hover { background: rgba(229,57,53,0.1); }
+
+  /* TOAST */
+  .toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .toast {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease;
+    max-width: 320px;
+  }
+  .toast.success { border-color: rgba(0,200,83,0.4); }
+  .toast.error { border-color: rgba(229,57,53,0.4); }
+  @keyframes slideIn {
+    from { transform: translateX(120%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  /* CONFETTI */
+  .confetti-piece {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    animation: confettiFall linear forwards;
+    z-index: 9998;
+    pointer-events: none;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    max-width: 420px;
+    width: 90%;
+  }
+  .modal h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+  .modal p { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+  .modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
+  .btn-cancel {
+    padding: 10px 18px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .btn-confirm {
+    padding: 10px 18px;
+    background: var(--red);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Mobile tweaks */
+  @media (max-width: 600px) {
+    .sidebar { width: 52px; }
+    .main { margin-left: 52px; }
+    .content { padding: 16px; }
+    .send-card, .settings-card { padding: 20px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    th:nth-child(3), td:nth-child(3),
+    th:nth-child(4), td:nth-child(4) { display: none; }
+  }
 </style>
 </head>
 <body>
 
-<canvas class="confetti-canvas" id="confettiCanvas"></canvas>
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">🔧</div>
+  <button class="nav-btn active" id="nav-send" onclick="showPanel('send')" title="Send Review">📤</button>
+  <button class="nav-btn" id="nav-dashboard" onclick="showPanel('dashboard')" title="Dashboard">📊</button>
+  <button class="nav-btn" id="nav-settings" onclick="showPanel('settings')" title="Settings">⚙️</button>
+</nav>
 
-<div class="shell">
+<!-- MAIN -->
+<div class="main">
 
-  <!-- ══════════════════════════════════════════
-       SIDEBAR
-  ══════════════════════════════════════════ -->
-  <nav class="sidebar">
-    <div class="sidebar-logo">🔧</div>
+  <!-- HEADER -->
+  <div class="header">
+    <div>
+      <div class="header-title">Up Front Auto Repair</div>
+      <div class="header-sub">Review Request Tool</div>
+    </div>
+    <div class="header-right">
+      <span class="clock" id="clock">--:-- --</span>
+      <span class="status-dot" id="status-dot">
+        <span class="dot red" id="status-indicator"></span>
+        <span id="status-text">Setup Required</span>
+      </span>
+    </div>
+  </div>
 
-    <button class="nav-item active" onclick="switchPanel('send')" id="nav-send" title="Send Request">
-      📤<span class="nav-tooltip">Send Request</span>
-    </button>
-    <button class="nav-item" onclick="switchPanel('dashboard')" id="nav-dashboard">
-      📊<span class="nav-tooltip">Dashboard</span>
-    </button>
-    <button class="nav-item" onclick="switchPanel('customers')" id="nav-customers">
-      👥<span class="nav-tooltip">All Customers</span>
-    </button>
-    <button class="nav-item" onclick="switchPanel('settings')" id="nav-settings">
-      ⚙️<span class="nav-tooltip">Settings</span>
-    </button>
+  <!-- SETUP BANNER -->
+  <div class="setup-banner" id="setup-banner" onclick="showPanel('settings')">
+    <span>⚠️</span>
+    <span><strong>Setup Required</strong> — Click ⚙️ Settings to add your Twilio credentials before sending reviews</span>
+  </div>
 
-    <div class="sidebar-spacer"></div>
-    <div class="sidebar-version">v2.0</div>
-  </nav>
+  <!-- CONTENT -->
+  <div class="content">
 
-  <!-- ══════════════════════════════════════════
-       MAIN
-  ══════════════════════════════════════════ -->
-  <div class="main">
+    <!-- SEND PANEL -->
+    <div class="panel active" id="panel-send">
+      <div class="send-card">
+        <h2>📤 Send Review Request</h2>
+        <p>Text a customer their Google review link after service.</p>
 
-    <!-- HEADER -->
-    <header class="header">
-      <div class="header-brand">
-        <div class="header-name">Up Front <em>Auto</em> Repair</div>
-        <div class="header-sub">Pittsfield, ME · (207) 648-4747</div>
+        <form id="send-form" onsubmit="handleSend(event)">
+          <div class="form-group">
+            <input type="text" id="customer-name" placeholder="Name" required autocomplete="off">
+            <label for="customer-name">Customer Name</label>
+          </div>
+          <div class="form-group">
+            <input type="tel" id="customer-phone" placeholder="Phone" required autocomplete="off" oninput="formatPhone(this)">
+            <label for="customer-phone">Phone Number</label>
+          </div>
+          <div class="form-group">
+            <input type="text" id="customer-service" placeholder="Service" required autocomplete="off">
+            <label for="customer-service">Service Performed</label>
+          </div>
+          <button type="submit" class="send-btn" id="send-btn">
+            🚀 Send Review Request
+          </button>
+        </form>
       </div>
-      <div class="header-divider"></div>
-      <div class="header-panel-name" id="headerPanelName">Send Request</div>
-      <div class="header-spacer"></div>
-      <div class="header-status">
-        <div class="status-dot" id="connDot"></div>
-        <span id="connLabel">Checking...</span>
-      </div>
-      <div class="header-divider"></div>
-      <div class="header-clock" id="liveClock"></div>
-    </header>
+    </div>
 
-    <!-- CONTENT -->
-    <div class="content">
+    <!-- DASHBOARD PANEL -->
+    <div class="panel" id="panel-dashboard">
+      <div class="stats-grid" id="stats-grid"></div>
 
-      <!-- ══ PANEL: SEND ══════════════════════════════ -->
-      <div class="panel active" id="panel-send">
-        <div class="send-wrap">
-          <div class="send-card" id="sendCard">
-
-            <!-- Form -->
-            <div id="formState">
-              <div class="send-title">New Review Request</div>
-              <div class="send-subtitle">Send a text to your customer asking for a Google review.</div>
-
-              <form id="reviewForm" autocomplete="off" novalidate>
-                <div class="float-group">
-                  <input class="float-input" type="text" id="customerName" placeholder="First Name" maxlength="50" autocomplete="off" required>
-                  <label class="float-label" for="customerName">Customer First Name</label>
-                </div>
-
-                <div class="float-group">
-                  <input class="float-input" type="tel" id="customerPhone" placeholder="Phone Number" maxlength="14" autocomplete="off" required>
-                  <label class="float-label" for="customerPhone">Phone Number</label>
-                </div>
-
-                <div class="float-group">
-                  <div class="select-wrap">
-                    <select class="float-select" id="serviceType">
-                      <option value="General Repair">General Repair</option>
-                      <option value="Oil Change">Oil Change</option>
-                      <option value="Brakes">Brakes</option>
-                      <option value="Diagnostics">Diagnostics</option>
-                      <option value="Tires">Tires</option>
-                      <option value="Inspection">Inspection</option>
-                      <option value="Other">Other</option>
-                    </select>
-                    <label class="float-label" for="serviceType">Service Performed</label>
-                  </div>
-                </div>
-
-                <button type="submit" class="send-btn" id="sendBtn">📲 Send Review Request</button>
-              </form>
-
-              <div class="error-banner" id="errorBanner"></div>
-            </div>
-
-            <!-- Success state -->
-            <div class="success-state" id="successState">
-              <div class="success-icon">✅</div>
-              <div class="success-name" id="successName"></div>
-              <div class="success-msg" id="successMsg"></div>
-              <button class="send-another-btn" onclick="resetForm()">+ Send Another Request</button>
-            </div>
-
+      <div class="table-card">
+        <div class="table-header">
+          <h3>Customers</h3>
+          <div class="filter-btns">
+            <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+            <button class="filter-btn" onclick="setFilter('pending', this)">Pending</button>
+            <button class="filter-btn" onclick="setFilter('reviewed', this)">Reviewed</button>
           </div>
         </div>
+        <div id="table-container"></div>
       </div>
+    </div>
 
-      <!-- ══ PANEL: DASHBOARD ═════════════════════════ -->
-      <div class="panel" id="panel-dashboard">
+    <!-- SETTINGS PANEL -->
+    <div class="panel" id="panel-settings">
+      <div class="settings-card">
+        <h2>⚙️ Twilio Configuration</h2>
+        <p class="desc">Connect Twilio to send SMS review requests from any device, anywhere.</p>
 
-        <!-- Stats -->
-        <div class="stats-row" style="margin-bottom:20px">
-          <div class="stat-card stat-card-blue">
-            <div class="stat-glow"></div>
-            <div class="stat-icon">📨</div>
-            <div class="stat-value" id="stat-total">—</div>
-            <div class="stat-label">Sent This Month</div>
-          </div>
-          <div class="stat-card stat-card-gold">
-            <div class="stat-glow"></div>
-            <div class="stat-icon">⭐</div>
-            <div class="stat-value" id="stat-reviewed">—</div>
-            <div class="stat-label">Reviews In</div>
-          </div>
-          <div class="stat-card stat-card-orange">
-            <div class="stat-glow"></div>
-            <div class="stat-icon">⏳</div>
-            <div class="stat-value" id="stat-pending">—</div>
-            <div class="stat-label">Pending Follow-ups</div>
-          </div>
-          <div class="stat-card stat-card-green">
-            <div class="stat-glow"></div>
-            <div class="stat-icon">📈</div>
-            <div class="stat-value" id="stat-rate">—</div>
-            <div class="stat-label">Conversion Rate</div>
-          </div>
+        <div class="setup-steps">
+          <h4>📋 Quick Setup Guide</h4>
+          <ol>
+            <li>Go to <a href="https://twilio.com" target="_blank">twilio.com</a> and sign up (free trial)</li>
+            <li>Get a phone number — $1/month after trial period</li>
+            <li>From the Console Dashboard, copy your <strong>Account SID</strong> and <strong>Auth Token</strong></li>
+            <li>Paste them below and click Save</li>
+          </ol>
         </div>
 
-        <div class="dash-layout">
-          <!-- Table -->
-          <div class="dash-main">
-            <div class="table-card">
-              <div class="table-header">
-                <div>
-                  <div class="table-title">Recent Requests</div>
-                  <div class="table-meta" id="lastRefreshNote">Loading...</div>
-                </div>
-                <div class="table-actions">
-                  <button class="btn-sm btn-ghost" onclick="exportCsv()">⬇ CSV</button>
-                  <button class="btn-sm btn-primary" onclick="loadDashboard()">↺ Refresh</button>
-                </div>
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Customer</th>
-                    <th>Phone</th>
-                    <th>Service</th>
-                    <th>Date Sent</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody id="tableBody">
-                  <tr><td colspan="6"><div class="table-empty"><div class="table-empty-icon">⏳</div><div class="table-empty-msg">Loading records...</div></div></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+        <div class="settings-row">
+          <label class="settings-label">Account SID</label>
+          <input class="settings-input" id="s-sid" type="text" placeholder="ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+        </div>
+        <div class="settings-row">
+          <label class="settings-label">Auth Token</label>
+          <input class="settings-input" id="s-token" type="password" placeholder="Your Auth Token (keep secret)">
+        </div>
+        <div class="settings-row">
+          <label class="settings-label">Your Twilio Phone Number</label>
+          <input class="settings-input" id="s-from" type="text" placeholder="+12075551234">
+        </div>
 
-          <!-- Activity feed -->
-          <div class="dash-aside">
-            <div class="activity-card">
-              <div class="activity-header">
-                <span>Recent Activity</span>
-                <span style="font-size:0.7rem;color:var(--text4);font-weight:500">Last 10 events</span>
-              </div>
-              <div class="activity-list" id="activityList">
-                <div class="activity-empty">No activity yet</div>
-              </div>
-            </div>
-          </div>
+        <div class="btn-row">
+          <button class="btn-save" onclick="saveSettings()">💾 Save Credentials</button>
+          <button class="btn-test" onclick="openTestModal()">📱 Send Test SMS</button>
+        </div>
+
+        <div class="danger-zone">
+          <h4>⚠️ Danger Zone</h4>
+          <p>Clear all customer data from this browser. This cannot be undone.</p>
+          <button class="btn-danger" onclick="clearAllData()">🗑 Clear All Customer Data</button>
         </div>
       </div>
+    </div>
 
-      <!-- ══ PANEL: CUSTOMERS ═════════════════════════ -->
-      <div class="panel" id="panel-customers">
-        <div class="customers-wrap">
-          <div class="table-card">
-            <div class="table-header">
-              <div>
-                <div class="table-title">All Customers</div>
-                <div class="table-meta" id="customersCount">All time</div>
-              </div>
-              <div class="table-actions">
-                <button class="btn-sm btn-ghost" onclick="exportCsv()">⬇ Export CSV</button>
-              </div>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Customer</th>
-                  <th>Phone</th>
-                  <th>Service</th>
-                  <th>Date Sent</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="allTableBody">
-                <tr><td colspan="6"><div class="table-empty"><div class="table-empty-icon">👥</div><div class="table-empty-msg">Loading...</div></div></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+  </div><!-- /content -->
+</div><!-- /main -->
 
-      <!-- ══ PANEL: SETTINGS ══════════════════════════ -->
-      <div class="panel" id="panel-settings">
-        <div class="settings-wrap">
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toasts"></div>
 
-          <div class="settings-card">
-            <h3>⚙️ Mac Mini Connection</h3>
-            <p>Set the local network IP address of your Mac mini. You only need to do this once. The app saves it automatically.</p>
-            <div class="settings-row">
-              <div class="float-group">
-                <input class="float-input" type="text" id="settingsIp" placeholder="IP Address" autocomplete="off">
-                <label class="float-label" for="settingsIp">Mac Mini IP Address</label>
-              </div>
-              <div class="float-group" style="flex:0 0 auto;margin-bottom:0">
-                <input class="float-input" type="text" id="settingsPort" placeholder="Port" style="width:90px" autocomplete="off">
-                <label class="float-label" for="settingsPort">Port</label>
-              </div>
-            </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <button class="btn-sm btn-primary" onclick="saveSettings()">💾 Save Settings</button>
-              <button class="btn-sm btn-ghost" onclick="testConnection()">🔌 Test Connection</button>
-            </div>
-            <div class="ping-result" id="pingResult"></div>
-          </div>
+<!-- TEST MODAL -->
+<div class="modal-overlay" id="test-modal">
+  <div class="modal">
+    <h3>📱 Send Test SMS</h3>
+    <p>Enter a phone number to receive a test message confirming Twilio is working.</p>
+    <input class="settings-input" id="test-phone" type="tel" placeholder="(207) 555-1234" oninput="formatPhone(this)">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('test-modal')">Cancel</button>
+      <button class="btn-confirm" onclick="sendTest()">Send Test</button>
+    </div>
+  </div>
+</div>
 
-          <div class="settings-card">
-            <h3>📋 Current Configuration</h3>
-            <p>What the app is currently using to connect.</p>
-            <div class="config-display" id="configDisplay">Loading...</div>
-          </div>
-
-          <div class="settings-card">
-            <h3>📱 Review Link</h3>
-            <p>The Google review link sent to customers via text message.</p>
-            <div class="config-display">
-              <span class="config-key">URL:  </span><span class="config-val">https://g.page/r/CXq8b_a9JviMEAE/review</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-    </div><!-- /content -->
-  </div><!-- /main -->
-</div><!-- /shell -->
+<!-- CLEAR DATA MODAL -->
+<div class="modal-overlay" id="clear-modal">
+  <div class="modal">
+    <h3>⚠️ Clear All Data?</h3>
+    <p>This will permanently delete all customer records from this browser. Twilio credentials will be kept.</p>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('clear-modal')">Cancel</button>
+      <button class="btn-confirm" onclick="confirmClearData()">Yes, Delete All</button>
+    </div>
+  </div>
+</div>
 
 <script>
-/* ═══════════════════════════════════════════════════════════
-   CONFIG — loaded from localStorage or defaults
-═══════════════════════════════════════════════════════════ */
-function getConfig(){
-  return{
-    ip:   localStorage.getItem('upfront_ip')   || '192.168.1.100',
-    port: localStorage.getItem('upfront_port') || '3999',
+// ═══════════════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════════════
+
+function getCustomers() {
+  return JSON.parse(localStorage.getItem('customers') || '[]');
+}
+
+function saveCustomers(customers) {
+  localStorage.setItem('customers', JSON.stringify(customers));
+}
+
+function getTwilio() {
+  return {
+    sid: localStorage.getItem('twilio_sid') || '',
+    token: localStorage.getItem('twilio_token') || '',
+    from: localStorage.getItem('twilio_from') || ''
   };
 }
-function base(){const c=getConfig();return`http://${c.ip}:${c.port}`}
 
-/* ═══════════════════════════════════════════════════════════
-   LIVE CLOCK
-═══════════════════════════════════════════════════════════ */
-function updateClock(){
-  const now=new Date();
-  document.getElementById('liveClock').textContent=
-    now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+
-    ' · '+now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit',second:'2-digit'});
-}
-setInterval(updateClock,1000);
-updateClock();
-
-/* ═══════════════════════════════════════════════════════════
-   CONNECTION CHECK
-═══════════════════════════════════════════════════════════ */
-let isConnected=false;
-async function checkConnection(){
-  try{
-    const r=await fetch(`${base()}/health`,{signal:AbortSignal.timeout(3000)});
-    isConnected=r.ok;
-  }catch{isConnected=false}
-  const dot=document.getElementById('connDot');
-  const lbl=document.getElementById('connLabel');
-  dot.className='status-dot'+(isConnected?'':' offline');
-  lbl.textContent=isConnected?'Connected':'Offline';
-}
-checkConnection();
-setInterval(checkConnection,30000);
-
-/* ═══════════════════════════════════════════════════════════
-   PANEL SWITCHING
-═══════════════════════════════════════════════════════════ */
-const panelNames={send:'Send Request',dashboard:'Dashboard',customers:'All Customers',settings:'Settings'};
-let dashTimer=null;
-let allRecords=[];
-let activityLog=[];
-
-function switchPanel(name){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById(`panel-${name}`).classList.add('active');
-  document.getElementById(`nav-${name}`).classList.add('active');
-  document.getElementById('headerPanelName').textContent=panelNames[name];
-
-  clearInterval(dashTimer);dashTimer=null;
-
-  if(name==='dashboard'){
-    loadDashboard();
-    dashTimer=setInterval(loadDashboard,60000);
-  }
-  if(name==='customers') loadCustomers();
-  if(name==='settings')  loadSettingsForm();
-  if(name==='send') setTimeout(()=>document.getElementById('customerName').focus(),100);
+function isTwilioConfigured() {
+  const { sid, token, from } = getTwilio();
+  return sid && token && from;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   FLOATING LABELS — select fix
-═══════════════════════════════════════════════════════════ */
-const sel=document.getElementById('serviceType');
-sel.classList.add('has-value');
-sel.addEventListener('change',()=>sel.classList.add('has-value'));
+// ═══════════════════════════════════════════════════════
+// TWILIO SMS
+// ═══════════════════════════════════════════════════════
 
-/* ═══════════════════════════════════════════════════════════
-   PHONE FORMAT  →  (207) 555-1234
-═══════════════════════════════════════════════════════════ */
-document.getElementById('customerPhone').addEventListener('input',function(e){
-  let v=e.target.value.replace(/\D/g,'').slice(0,10);
-  if(v.length>6)      v=`(${v.slice(0,3)}) ${v.slice(3,6)}-${v.slice(6)}`;
-  else if(v.length>3) v=`(${v.slice(0,3)}) ${v.slice(3)}`;
-  else if(v.length)   v=`(${v}`;
-  e.target.value=v;
-});
+async function sendSMS(to, message) {
+  const { sid, token, from } = getTwilio();
+  if (!sid || !token || !from) return { ok: false, error: 'Twilio not configured' };
 
-/* ═══════════════════════════════════════════════════════════
-   SEND FORM
-═══════════════════════════════════════════════════════════ */
-document.getElementById('reviewForm').addEventListener('submit',async function(e){
-  e.preventDefault();
-  const name=document.getElementById('customerName').value.trim();
-  const phone=document.getElementById('customerPhone').value.trim();
-  const service=document.getElementById('serviceType').value;
-  const errBanner=document.getElementById('errorBanner');
+  const rawPhone = to.replace(/\D/g, '');
+  const formatted = rawPhone.length === 10 ? '+1' + rawPhone : '+' + rawPhone;
 
-  errBanner.classList.remove('show');
+  const url = `https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`;
+  const auth = btoa(`${sid}:${token}`);
+  const body = new URLSearchParams({ To: formatted, From: from, Body: message });
 
-  if(!name){
-    showErr('Please enter the customer\'s first name.');
-    document.getElementById('customerName').focus();return;
-  }
-  const digits=phone.replace(/\D/g,'');
-  if(digits.length<10){
-    showErr('Please enter a valid 10-digit phone number.');
-    document.getElementById('customerPhone').focus();return;
-  }
-
-  const btn=document.getElementById('sendBtn');
-  btn.disabled=true;
-  btn.textContent='⏳ Sending...';
-
-  try{
-    const res=await fetch(`${base()}/send-review`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name,phone,service})
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body
     });
-    const data=await res.json();
-    if(res.ok && data.success){
-      showSuccess(name,service);
-      addActivity('green',`Text sent to ${name} (${service})`);
-    }else{
-      showErr(data.error||'Something went wrong. Try again.');
+    const data = await resp.json();
+    if (!resp.ok) {
+      return { ok: false, error: data.message || 'Twilio error' };
     }
-  }catch(err){
-    showErr(`Can't reach the Mac mini. Check that the review server is running.\n${err.message}`);
-  }finally{
-    btn.disabled=false;
-    btn.textContent='📲 Send Review Request';
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e.message };
   }
-});
-
-function showErr(msg){
-  const b=document.getElementById('errorBanner');
-  b.textContent='⚠️ '+msg;
-  b.classList.add('show');
 }
 
-function showSuccess(name,service){
-  document.getElementById('formState').style.display='none';
-  const ss=document.getElementById('successState');
-  ss.classList.add('show');
-  document.getElementById('successName').textContent=`✅ Text sent to ${name}!`;
-  document.getElementById('successMsg').textContent=`${name} will receive a review request for their ${service}. A follow-up will go out in 48 hours if they haven't responded.`;
-  launchConfetti();
+// ═══════════════════════════════════════════════════════
+// MESSAGES
+// ═══════════════════════════════════════════════════════
+
+function firstMsg(name, service) {
+  return `Hi ${name}! Thanks for choosing Up Front Auto Repair for your ${service}. We'd love a quick Google review — it really helps our small shop: https://g.page/r/CXq8b_a9JviMEAE/review 🙏 - Up Front Auto Repair (207) 648-4747`;
 }
 
-function resetForm(){
-  document.getElementById('reviewForm').reset();
-  document.getElementById('serviceType').classList.add('has-value');
-  document.getElementById('errorBanner').classList.remove('show');
-  document.getElementById('formState').style.display='';
-  document.getElementById('successState').classList.remove('show');
-  setTimeout(()=>document.getElementById('customerName').focus(),50);
+function followUpMsg(name) {
+  return `Hi ${name}! Just a friendly follow-up from Up Front Auto Repair. If you have a moment, your Google review means a lot to us: https://g.page/r/CXq8b_a9JviMEAE/review Thanks! - (207) 648-4747`;
 }
 
-window.addEventListener('load',()=>document.getElementById('customerName').focus());
+// ═══════════════════════════════════════════════════════
+// AUTO FOLLOW-UP (runs on load)
+// ═══════════════════════════════════════════════════════
 
-/* ═══════════════════════════════════════════════════════════
-   DASHBOARD
-═══════════════════════════════════════════════════════════ */
-async function loadDashboard(){
-  try{
-    const[rv,st]=await Promise.all([
-      fetch(`${base()}/reviews`),
-      fetch(`${base()}/stats`)
-    ]);
-    if(!rv.ok) throw new Error('reviews fetch failed');
-    allRecords=await rv.json();
-    renderTable(allRecords,'tableBody',20);
+async function runFollowUps() {
+  if (!isTwilioConfigured()) return;
+  const customers = getCustomers();
+  const now = Date.now();
+  const FORTY_EIGHT = 48 * 60 * 60 * 1000;
+  let updated = false;
 
-    if(st.ok){
-      const s=await st.json();
-      animateCount('stat-total',   s.totalThisMonth??0);
-      animateCount('stat-reviewed',s.reviewed??0);
-      animateCount('stat-pending', s.pending??0);
-      document.getElementById('stat-rate').textContent=
-        s.conversionRate!=null?`${s.conversionRate}%`:'—';
+  for (const c of customers) {
+    if (c.status === 'pending' && !c.followUpSent) {
+      const age = now - new Date(c.sentAt).getTime();
+      if (age >= FORTY_EIGHT) {
+        const result = await sendSMS(c.phone, followUpMsg(c.name));
+        if (result.ok) {
+          c.followUpSent = true;
+          c.status = 'followed_up';
+          c.followUpAt = new Date().toISOString();
+          updated = true;
+          console.log(`Follow-up sent to ${c.name}`);
+        }
+      }
     }
+  }
 
-    document.getElementById('lastRefreshNote').textContent=
-      `Updated ${new Date().toLocaleTimeString()} · auto-refreshes every 60s`;
-  }catch(err){
-    document.getElementById('tableBody').innerHTML=`
-      <tr><td colspan="6"><div class="table-empty">
-        <div class="table-empty-icon">⚠️</div>
-        <div class="table-empty-msg">Can't connect to Mac mini</div>
-        <div class="table-empty-sub">${err.message}</div>
-      </div></td></tr>`;
-    document.getElementById('lastRefreshNote').textContent='Connection failed';
+  if (updated) {
+    saveCustomers(customers);
+    renderDashboard();
   }
 }
 
-async function loadCustomers(){
-  try{
-    const rv=await fetch(`${base()}/reviews`);
-    if(!rv.ok) throw new Error('failed');
-    const records=await rv.json();
-    renderTable(records,'allTableBody',9999);
-    document.getElementById('customersCount').textContent=`${records.length} customer${records.length===1?'':'s'} all time`;
-  }catch(err){
-    document.getElementById('allTableBody').innerHTML=`
-      <tr><td colspan="6"><div class="table-empty">
-        <div class="table-empty-icon">⚠️</div>
-        <div class="table-empty-msg">Could not load customers</div>
-        <div class="table-empty-sub">${err.message}</div>
-      </div></td></tr>`;
-  }
-}
+// ═══════════════════════════════════════════════════════
+// SEND FORM
+// ═══════════════════════════════════════════════════════
 
-function renderTable(records,tbodyId,limit){
-  const tbody=document.getElementById(tbodyId);
-  if(!records||records.length===0){
-    tbody.innerHTML=`<tr><td colspan="6"><div class="table-empty">
-      <div class="table-empty-icon">📭</div>
-      <div class="table-empty-msg">No records yet</div>
-      <div class="table-empty-sub">Send your first review request to get started.</div>
-    </div></td></tr>`;
+async function handleSend(e) {
+  e.preventDefault();
+  if (!isTwilioConfigured()) {
+    toast('⚙️ Please configure Twilio in Settings first.', 'error');
+    showPanel('settings');
     return;
   }
-  const sorted=[...records].sort((a,b)=>new Date(b.sentAt)-new Date(a.sentAt)).slice(0,limit);
-  tbody.innerHTML=sorted.map((r,i)=>{
-    const delay=Math.min(i*0.04,0.5);
-    const canMark=r.status!=='reviewed';
-    return`<tr style="animation-delay:${delay}s">
-      <td class="td-name" data-label="Customer">${esc(r.name)}</td>
-      <td class="td-phone" data-label="Phone">${esc(r.phone)}</td>
-      <td data-label="Service">${esc(r.service)}</td>
-      <td class="td-date" data-label="Date">${fmtDate(r.sentAt)}</td>
-      <td data-label="Status">${badge(r.status)}</td>
-      <td data-label="Action"><button class="mark-btn" ${canMark?'':' disabled'}
-        onclick="markReviewed('${esc(r.id)}','${esc(r.name)}',this)">
-        ${r.status==='reviewed'?'✅ Reviewed':'✅ Mark Reviewed'}
-      </button></td>
-    </tr>`;
-  }).join('');
-}
 
-function badge(status){
-  const m={
-    pending:   ['badge-pending',   '🟡','Pending'],
-    followed:  ['badge-followed',  '🔁','Followed Up'],
-    reviewed:  ['badge-reviewed',  '✅','Reviewed'],
-    noresponse:['badge-noresponse','❌','No Response'],
-  };
-  const[cls,icon,lbl]=m[status]||m.pending;
-  return`<span class="badge ${cls}">${icon} ${lbl}</span>`;
-}
+  const name = document.getElementById('customer-name').value.trim();
+  const phone = document.getElementById('customer-phone').value.trim();
+  const service = document.getElementById('customer-service').value.trim();
 
-function fmtDate(iso){
-  if(!iso) return'—';
-  const d=new Date(iso);
-  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+
-         ' '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-}
+  const btn = document.getElementById('send-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Sending...';
 
-function esc(s){
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
+  const result = await sendSMS(phone, firstMsg(name, service));
 
-/* ═══════════════════════════════════════════════════════════
-   MARK REVIEWED
-═══════════════════════════════════════════════════════════ */
-async function markReviewed(id,name,btn){
-  if(!confirm(`Mark ${name} as reviewed?`)) return;
-  btn.disabled=true;btn.textContent='⏳...';
-  try{
-    const res=await fetch(`${base()}/mark-reviewed`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({id})
+  if (result.ok) {
+    // Save to localStorage
+    const customers = getCustomers();
+    customers.unshift({
+      id: Date.now(),
+      name, phone, service,
+      sentAt: new Date().toISOString(),
+      status: 'pending',
+      followUpSent: false,
+      followUpAt: null,
+      reviewedAt: null
     });
-    const data=await res.json();
-    if(res.ok&&data.success){
-      addActivity('green',`Marked reviewed: ${name}`);
-      loadDashboard();
-    }else{
-      alert(data.error||'Error marking as reviewed');
-      btn.disabled=false;btn.textContent='✅ Mark Reviewed';
-    }
-  }catch(err){
-    alert(`Connection error: ${err.message}`);
-    btn.disabled=false;btn.textContent='✅ Mark Reviewed';
+    saveCustomers(customers);
+
+    toast(`✅ Review request sent to ${name}!`, 'success');
+    confetti();
+    document.getElementById('send-form').reset();
+  } else {
+    toast(`❌ Failed to send: ${result.error}`, 'error');
   }
+
+  btn.disabled = false;
+  btn.textContent = '🚀 Send Review Request';
 }
 
-/* ═══════════════════════════════════════════════════════════
-   ACTIVITY FEED
-═══════════════════════════════════════════════════════════ */
-function addActivity(color,text){
-  activityLog.unshift({color,text,time:new Date()});
-  if(activityLog.length>10) activityLog.pop();
-  renderActivity();
+// ═══════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════
+
+let currentFilter = 'all';
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
 }
 
-function renderActivity(){
-  const el=document.getElementById('activityList');
-  if(!activityLog.length){el.innerHTML='<div class="activity-empty">No activity yet</div>';return}
-  el.innerHTML=activityLog.map((a,i)=>`
-    <div class="activity-item" style="animation-delay:${i*0.04}s">
-      <div class="activity-text">
-        <span class="activity-dot dot-${a.color}"></span>${esc(a.text)}
-      </div>
-      <div class="activity-time">${relTime(a.time)}</div>
-    </div>`).join('');
-}
+function renderDashboard() {
+  const customers = getCustomers();
+  const total = customers.length;
+  const reviewed = customers.filter(c => c.status === 'reviewed').length;
+  const pending = customers.filter(c => c.status === 'pending').length;
+  const followedUp = customers.filter(c => c.status === 'followed_up').length;
 
-function relTime(d){
-  const s=Math.floor((Date.now()-new Date(d))/1000);
-  if(s<10) return'just now';
-  if(s<60) return`${s}s ago`;
-  if(s<3600) return`${Math.floor(s/60)}m ago`;
-  return`${Math.floor(s/3600)}h ago`;
-}
+  const statsEl = document.getElementById('stats-grid');
+  statsEl.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Total Sent</div>
+      <div class="stat-value blue" data-target="${total}">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Reviewed ⭐</div>
+      <div class="stat-value green" data-target="${reviewed}">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Pending</div>
+      <div class="stat-value yellow" data-target="${pending}">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Followed Up</div>
+      <div class="stat-value red" data-target="${followedUp}">0</div>
+    </div>
+  `;
 
-setInterval(renderActivity,30000);
-
-/* ═══════════════════════════════════════════════════════════
-   EXPORT CSV
-═══════════════════════════════════════════════════════════ */
-function exportCsv(){
-  if(!allRecords||!allRecords.length){alert('No data to export.');return}
-  const hdr=['Name','Phone','Service','Date Sent','Status'];
-  const rows=allRecords.map(r=>[r.name,r.phone,r.service,
-    r.sentAt?new Date(r.sentAt).toLocaleString():'',r.status]);
-  const csv=[hdr,...rows]
-    .map(r=>r.map(c=>`"${String(c||'').replace(/"/g,'""')}"`).join(','))
-    .join('\n');
-  const a=Object.assign(document.createElement('a'),{
-    href:URL.createObjectURL(new Blob([csv],{type:'text/csv'})),
-    download:`upfront-reviews-${new Date().toISOString().slice(0,10)}.csv`
+  // Count-up animation
+  statsEl.querySelectorAll('[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    if (target === 0) return;
+    let current = 0;
+    const step = Math.ceil(target / 20);
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current;
+      if (current >= target) clearInterval(interval);
+    }, 40);
   });
-  a.click();
+
+  renderTable();
 }
 
-/* ═══════════════════════════════════════════════════════════
-   NUMBER COUNT-UP
-═══════════════════════════════════════════════════════════ */
-function animateCount(id,target){
-  const el=document.getElementById(id);
-  const start=parseInt(el.textContent)||0;
-  const dur=800,fps=60,steps=Math.ceil(dur/1000*fps);
-  let step=0;
-  const tick=setInterval(()=>{
-    step++;
-    el.textContent=Math.round(start+(target-start)*(step/steps));
-    if(step>=steps){el.textContent=target;clearInterval(tick)}
-  },1000/fps);
+function renderTable() {
+  const customers = getCustomers();
+  const filtered = currentFilter === 'all' ? customers : customers.filter(c => c.status === currentFilter);
+  const container = document.getElementById('table-container');
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="emoji">📭</div>
+        <p>${currentFilter === 'all' ? 'No customers yet. Send your first review request!' : 'No customers in this category.'}</p>
+      </div>`;
+    return;
+  }
+
+  const rows = filtered.map(c => {
+    const date = new Date(c.sentAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return `
+      <tr>
+        <td><strong>${esc(c.name)}</strong></td>
+        <td>${esc(c.phone)}</td>
+        <td>${esc(c.service)}</td>
+        <td>${date}</td>
+        <td><span class="badge ${c.status}">${statusLabel(c.status)}</span></td>
+        <td>
+          <div class="action-btns">
+            ${c.status !== 'reviewed' ? `<button class="action-btn mark-reviewed" onclick="markReviewed(${c.id})">✓ Reviewed</button>` : ''}
+            <button class="action-btn delete-btn" onclick="deleteCustomer(${c.id})">✕</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Phone</th>
+          <th>Service</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   SETTINGS
-═══════════════════════════════════════════════════════════ */
-function loadSettingsForm(){
-  const c=getConfig();
-  const ipEl=document.getElementById('settingsIp');
-  const portEl=document.getElementById('settingsPort');
-  ipEl.value=c.ip;
-  portEl.value=c.port;
-  // Trigger floating label
-  if(c.ip) ipEl.dispatchEvent(new Event('input'));
-  if(c.port) portEl.dispatchEvent(new Event('input'));
-  updateConfigDisplay();
+function statusLabel(s) {
+  return { pending: '⏳ Pending', followed_up: '📩 Followed Up', reviewed: '⭐ Reviewed', no_response: '😶 No Response' }[s] || s;
 }
 
-function saveSettings(){
-  const ip=document.getElementById('settingsIp').value.trim();
-  const port=document.getElementById('settingsPort').value.trim();
-  if(!ip){alert('Please enter an IP address.');return}
-  localStorage.setItem('upfront_ip',ip);
-  localStorage.setItem('upfront_port',port||'3999');
-  updateConfigDisplay();
-  checkConnection();
-  const btn=event.target;
-  btn.textContent='✅ Saved!';
-  setTimeout(()=>btn.textContent='💾 Save Settings',2000);
+function markReviewed(id) {
+  const customers = getCustomers();
+  const c = customers.find(x => x.id === id);
+  if (c) { c.status = 'reviewed'; c.reviewedAt = new Date().toISOString(); }
+  saveCustomers(customers);
+  renderDashboard();
+  toast('⭐ Marked as reviewed!', 'success');
 }
 
-async function testConnection(){
-  const pr=document.getElementById('pingResult');
-  pr.className='ping-result';pr.textContent='Testing...';pr.style.display='block';
-  const t0=Date.now();
-  try{
-    const r=await fetch(`${base()}/health`,{signal:AbortSignal.timeout(5000)});
-    const ms=Date.now()-t0;
-    if(r.ok){
-      pr.className='ping-result ok';
-      pr.textContent=`✅ Connected! Response time: ${ms}ms`;
-    }else{
-      pr.className='ping-result fail';
-      pr.textContent=`❌ Server responded with error ${r.status}`;
-    }
-  }catch(err){
-    pr.className='ping-result fail';
-    pr.textContent=`❌ No connection — ${err.message}`;
+function deleteCustomer(id) {
+  const customers = getCustomers().filter(x => x.id !== id);
+  saveCustomers(customers);
+  renderDashboard();
+}
+
+// ═══════════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════════
+
+function loadSettings() {
+  const { sid, token, from } = getTwilio();
+  document.getElementById('s-sid').value = sid;
+  document.getElementById('s-token').value = token;
+  document.getElementById('s-from').value = from;
+}
+
+function saveSettings() {
+  const sid = document.getElementById('s-sid').value.trim();
+  const token = document.getElementById('s-token').value.trim();
+  const from = document.getElementById('s-from').value.trim();
+
+  if (!sid || !token || !from) {
+    toast('⚠️ Please fill in all three fields.', 'error');
+    return;
+  }
+
+  localStorage.setItem('twilio_sid', sid);
+  localStorage.setItem('twilio_token', token);
+  localStorage.setItem('twilio_from', from);
+
+  updateStatusDot();
+  toast('✅ Credentials saved!', 'success');
+}
+
+function openTestModal() {
+  if (!isTwilioConfigured()) {
+    toast('⚠️ Save your credentials first.', 'error');
+    return;
+  }
+  document.getElementById('test-modal').classList.add('open');
+}
+
+async function sendTest() {
+  const phone = document.getElementById('test-phone').value.trim();
+  if (!phone) { toast('Enter a phone number.', 'error'); return; }
+  closeModal('test-modal');
+  toast('📤 Sending test SMS...', 'success');
+  const result = await sendSMS(phone, '✅ Test from Up Front Auto Repair review tool — Twilio is working!');
+  if (result.ok) {
+    toast('✅ Test SMS sent!', 'success');
+  } else {
+    toast(`❌ Test failed: ${result.error}`, 'error');
   }
 }
 
-function updateConfigDisplay(){
-  const c=getConfig();
-  document.getElementById('configDisplay').innerHTML=
-    `<span class="config-key">IP:    </span><span class="config-val">${c.ip}</span>\n`+
-    `<span class="config-key">Port:  </span><span class="config-val">${c.port}</span>\n`+
-    `<span class="config-key">URL:   </span><span class="config-val">http://${c.ip}:${c.port}</span>`;
+function clearAllData() {
+  document.getElementById('clear-modal').classList.add('open');
 }
 
-/* ═══════════════════════════════════════════════════════════
-   CONFETTI
-═══════════════════════════════════════════════════════════ */
-function launchConfetti(){
-  const canvas=document.getElementById('confettiCanvas');
-  const ctx=canvas.getContext('2d');
-  canvas.width=window.innerWidth;
-  canvas.height=window.innerHeight;
+function confirmClearData() {
+  localStorage.removeItem('customers');
+  closeModal('clear-modal');
+  renderDashboard();
+  toast('🗑 All customer data cleared.', 'success');
+}
 
-  const colors=['#e63946','#2ecc71','#3b82f6','#f39c12','#8b5cf6','#ffffff','#fbbf24'];
-  const pieces=[];
-  for(let i=0;i<120;i++){
-    pieces.push({
-      x:Math.random()*canvas.width,
-      y:-10-Math.random()*100,
-      w:6+Math.random()*8,
-      h:4+Math.random()*6,
-      color:colors[Math.floor(Math.random()*colors.length)],
-      angle:Math.random()*360,
-      spin:4-Math.random()*8,
-      vx:-3+Math.random()*6,
-      vy:4+Math.random()*6,
-      alpha:1,
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ═══════════════════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════════════════
+
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'settings') loadSettings();
+}
+
+function updateStatusDot() {
+  const configured = isTwilioConfigured();
+  const dot = document.getElementById('status-indicator');
+  const text = document.getElementById('status-text');
+  const banner = document.getElementById('setup-banner');
+  dot.classList.toggle('red', !configured);
+  text.textContent = configured ? 'Ready' : 'Setup Required';
+  banner.classList.toggle('hidden', configured);
+}
+
+function formatPhone(input) {
+  let val = input.value.replace(/\D/g, '');
+  if (val.length >= 10) val = val.slice(0, 10);
+  if (val.length >= 7) {
+    input.value = `(${val.slice(0,3)}) ${val.slice(3,6)}-${val.slice(6)}`;
+  } else if (val.length >= 4) {
+    input.value = `(${val.slice(0,3)}) ${val.slice(3)}`;
+  } else if (val.length > 0) {
+    input.value = `(${val}`;
+  }
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function toast(msg, type = 'success') {
+  const container = document.getElementById('toasts');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+function confetti() {
+  const colors = ['#e53935','#ff6b6b','#ffb300','#00c853','#5c6bc0','#ffffff'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left: ${Math.random() * 100}vw;
+      top: -10px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration: ${1.5 + Math.random() * 2}s;
+      animation-delay: ${Math.random() * 0.5}s;
+      transform: rotate(${Math.random() * 360}deg);
+      width: ${6 + Math.random() * 8}px;
+      height: ${6 + Math.random() * 8}px;
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+}
+
+function startClock() {
+  function tick() {
+    const now = new Date();
+    document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', {
+      hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true
     });
   }
-
-  let frame=0;
-  function draw(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    pieces.forEach(p=>{
-      ctx.save();
-      ctx.globalAlpha=p.alpha;
-      ctx.fillStyle=p.color;
-      ctx.translate(p.x,p.y);
-      ctx.rotate(p.angle*Math.PI/180);
-      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
-      ctx.restore();
-      p.x+=p.vx;p.y+=p.vy;
-      p.angle+=p.spin;p.vy+=0.12;
-      if(frame>60) p.alpha-=0.012;
-    });
-    frame++;
-    if(pieces.some(p=>p.alpha>0)) requestAnimationFrame(draw);
-    else ctx.clearRect(0,0,canvas.width,canvas.height);
-  }
-  draw();
+  tick();
+  setInterval(tick, 1000);
 }
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+  startClock();
+  updateStatusDot();
+  runFollowUps();
+});
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
 </script>
 </body>
 </html>
