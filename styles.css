@@ -188,3 +188,6 @@ address { font-style: normal; color: var(--gray); margin-bottom: 12px; line-heig
 .video-wrapper { display: flex; justify-content: center; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); max-width: 800px; margin: 0 auto; }
 .video-wrapper iframe { width: 100%; max-width: 800px; height: 450px; border-radius: var(--radius); }
 @media (max-width: 768px) { .video-wrapper iframe { height: 250px; } }
+
+/* MASCOT */
+.mascot-tag { background: #fff3cd; border-left: 4px solid var(--gold); padding: 8px 14px; border-radius: 6px; font-size: 0.95rem; margin-bottom: 16px !important; color: var(--dark); }
