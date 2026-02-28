@@ -27,3 +27,10 @@ function updateOpenStatus() {
   if (text) text.textContent = isOpen ? 'Open Now · Mon–Fri 8AM–5PM' : 'Closed · Opens Mon 8AM';
 }
 updateOpenStatus();
+
+// Photo gallery
+function setMain(thumb) {
+  document.getElementById('galleryMain').src = thumb.src;
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+}
